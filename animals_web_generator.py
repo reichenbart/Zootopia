@@ -14,18 +14,19 @@ animals_data = load_json_data('animals_data.json')
 
 def get_info(animals):
     """prints specific info of a dict in a list"""
-    output = ""
+    output = ''
     for animal in animals:
         locations = ", ".join(animal.get("locations", []))
 
-        output += f"Name: {animal.get('name')}\n"
-        output += f"Diet: {animal.get('characteristics').get('diet')}\n"
-        output += f"Location: {locations}\n"
+        output += '<li class="cards__item">\n'
+        output += f'Name: {animal.get('name')}<br/>\n'
+        output += f'Diet: {animal.get('characteristics').get('diet')}<br/>\n'
+        output += f'Location: {locations}<br/>\n'
 
         if animal.get('characteristics', {}).get('type'):
-            output += f"Type: {animal['characteristics']['type']}\n"
+            output += f'Type: {animal['characteristics']['type']}<br/>\n'
 
-        output += "\n"
+        output += '</li>\n'
 
     return output
 
