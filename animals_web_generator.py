@@ -19,14 +19,15 @@ def get_info(animals):
         locations = ", ".join(animal.get("locations", []))
 
         output += '<li class="cards__item">\n'
-        output += f'Name: {animal.get('name')}<br/>\n'
-        output += f'Diet: {animal.get('characteristics').get('diet')}<br/>\n'
-        output += f'Location: {locations}<br/>\n'
+        output += f'<div class="card__title">{animal.get('name')}</div>\n'
+        output += f'<p class="card__text">'
+        output += f'<strong>Diet:</strong> {animal.get('characteristics').get('diet')}<br/>\n'
+        output += f'<strong>Location:</strong> {locations}<br/>\n'
 
         if animal.get('characteristics', {}).get('type'):
-            output += f'Type: {animal['characteristics']['type']}<br/>\n'
+            output += f'<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n'
 
-        output += '</li>\n'
+        output += '</p></li>\n'
 
     return output
 
