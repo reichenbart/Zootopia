@@ -10,27 +10,35 @@ def load_json_data(file_path):
 
 
 def get_info(animals):
-    """prints specific info of a dict in a list"""
+    """iterates through a list, gets specific information as a string and returns that string"""
     output = ''
     for animal in animals:
-        locations = ", ".join(animal.get("locations", []))
+        output += serialize_animal(animal)
 
-        output += '<li class="cards__item">\n'
-        output += f'<div class="card__title">{animal.get('name')}</div>\n'
-        output += f'<p class="card__text">'
-        output += f'<strong>Diet:</strong> {animal.get('characteristics').get('diet')}<br/>\n'
-        output += f'<strong>Location:</strong> {locations}<br/>\n'
+    return output
 
-        if animal.get('characteristics', {}).get('type'):
-            output += f'<strong>Type:</strong> {animal['characteristics']['type']}<br/>\n'
 
-        output += '</p></li>\n'
+
+def serialize_animal(animal_obj):
+    output = ''
+    locations = ", ".join(animal_obj.get("locations", []))
+    output += '<li class="cards__item">\n'
+    output += f'<div class="card__title">{animal_obj.get('name')}</div>\n'
+    output += f'<p class="card__text">'
+    output += f'<strong>Diet:</strong> {animal_obj.get('characteristics').get('diet')}<br/>\n'
+    output += f'<strong>Location:</strong> {locations}<br/>\n'
+
+    if animal_obj.get('characteristics', {}).get('type'):
+        output += f'<strong>Type:</strong> {animal_obj['characteristics']['type']}<br/>\n'
+
+    output += '</p></li>\n'
 
     return output
 
 
 
 def read_template(file_path):
+    """opens, reads and closes a given file. Returns the files content as a string"""
     with open(file_path, "r") as html_file:
         page = html_file.read()
     return page
@@ -38,6 +46,7 @@ def read_template(file_path):
 
 
 def write_template(content, file_path):
+    """opens, writes given content to and closes a given file. Returns that file"""
     with open(file_path, "w") as html_file:
         new_page = html_file.write(content)
     return new_page
