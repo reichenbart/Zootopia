@@ -9,13 +9,43 @@ def load_json_data(file_path):
 
 
 
-def get_info(animals):
+def get_info(animals, filter_value):
     """iterates through a list, gets specific information as a string and returns that string"""
     output = ''
-    for animal in animals:
-        output += serialize_animal(animal)
+
+    if filter_value is not None:
+        for animal in animals:
+            if filter_value in animal.get('characteristics', {}).get('skin_type'):
+                output += serialize_animal(animal)
+    else:
+        for animal in animals:
+            output += serialize_animal(animal)
 
     return output
+
+
+
+def choose_skin_type():
+    """Shows a menu, asks user for an input. Returns a string which matches the value of skin type in the json data the user wants to see"""
+    print(
+        'Skin types:\n',
+        '1. Hair\n',
+        '2. Fur\n',
+        '3. Scales\n',
+        '4. Show all\n'
+    )
+    while True:
+        choice = input('Please select, which animals should be displayed based on the selected skin type (1-4): ')
+        if choice == '1':
+            return 'Hair'
+        if choice == '2':
+            return 'Fur'
+        if choice == '3':
+            return 'Scales'
+        if choice == '4':
+            return None
+        else:
+            print('Please enter a value between 1 and 4!')
 
 
 
@@ -56,7 +86,8 @@ def write_template(content, file_path):
 
 def main():
     animals_data = load_json_data('animals_data.json')
-    fox_info = get_info(animals_data)
+    user_filter = choose_skin_type()
+    fox_info = get_info(animals_data, user_filter)
     starting_page = "animals_template.html"
 
     page = read_template(starting_page)
