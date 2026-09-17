@@ -21,6 +21,7 @@ def get_info(animals):
 
 def serialize_animal(animal_obj):
     output = ''
+
     locations = ", ".join(animal_obj.get("locations", []))
     output += '<li class="cards__item">\n'
     output += f'<div class="card__title">{animal_obj.get('name')}</div>\n'
