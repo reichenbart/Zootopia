@@ -21,18 +21,18 @@ def get_info(animals):
 
 def serialize_animal(animal_obj):
     output = ''
-
     locations = ", ".join(animal_obj.get("locations", []))
+
     output += '<li class="cards__item">\n'
-    output += f'<div class="card__title">{animal_obj.get('name')}</div>\n'
-    output += f'<p class="card__text">'
-    output += f'<strong>Diet:</strong> {animal_obj.get('characteristics').get('diet')}<br/>\n'
-    output += f'<strong>Location:</strong> {locations}<br/>\n'
+    output += f'<div class="card__title">{animal_obj.get('name')}</div><br/>\n'
+    output += '<div class="card__text">\n'
+    output += f'<ul><li><strong>Diet:</strong> {animal_obj.get('characteristics').get('diet')}</li>\n'
+    output += f'<li><strong>Location:</strong> {locations}</li>\n'
 
     if animal_obj.get('characteristics', {}).get('type'):
-        output += f'<strong>Type:</strong> {animal_obj['characteristics']['type']}<br/>\n'
+        output += f'<li><strong>Type:</strong> {animal_obj['characteristics']['type']}</li>\n'
 
-    output += '</p></li>\n'
+    output += '</ul></div></li>\n'
 
     return output
 
