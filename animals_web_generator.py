@@ -1,5 +1,5 @@
 import json
-
+import requests
 
 
 def load_json_data(file_path):
@@ -7,6 +7,17 @@ def load_json_data(file_path):
     with open(file_path, "r") as handle:
         return json.load(handle)
 
+
+def fetch_api(animal):
+    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(animal)
+    response = requests.get(api_url, headers={'X-Api-Key': 'U8eXhNjcTzFkDtaDo9O5zrDBwciGTaZ3qs7zkCKX'})
+    if response.status_code == requests.codes.ok:
+        data = response.json()
+        with open("animals_data.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+        print("Saved as animals_data.json")
+    else:
+        print("Error:", response.status_code, response.text)
 
 
 def get_info(animals, filter_value):
@@ -22,7 +33,6 @@ def get_info(animals, filter_value):
             output += serialize_animal(animal)
 
     return output
-
 
 
 def choose_skin_type():
@@ -48,7 +58,6 @@ def choose_skin_type():
             print('Please enter a value between 1 and 4!')
 
 
-
 def serialize_animal(animal_obj):
     output = ''
     locations = ", ".join(animal_obj.get("locations", []))
@@ -67,13 +76,11 @@ def serialize_animal(animal_obj):
     return output
 
 
-
 def read_template(file_path):
     """opens, reads and closes a given file. Returns the files content as a string"""
     with open(file_path, "r") as html_file:
         page = html_file.read()
     return page
-
 
 
 def write_template(content, file_path):
@@ -83,19 +90,20 @@ def write_template(content, file_path):
     return new_page
 
 
-
 def main():
+    animal = input("Please enter the name of an animal: ")
+    fetch_api(animal)
     animals_data = load_json_data('animals_data.json')
     user_filter = choose_skin_type()
     fox_info = get_info(animals_data, user_filter)
     starting_page = "animals_template.html"
 
+
     page = read_template(starting_page)
     animals_html = page.replace("__REPLACE_ANIMALS_INFO__", fox_info)
 
     write_template(animals_html, "animals.html")
-    print("Done! HTML-file is written.")
-
+    print("Done! HTML-file is updated.")
 
 
 if __name__ == "__main__":
