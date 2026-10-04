@@ -94,6 +94,7 @@ def main():
     animals_html = page.replace("__REPLACE_ANIMALS_INFO__", fox_info)
 
     write_template(animals_html, "animals.html")
+    print("Done! HTML-file is written.")
 
 
 
