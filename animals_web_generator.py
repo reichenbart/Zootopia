@@ -95,14 +95,18 @@ def main():
     fetch_api(animal)
     animals_data = load_json_data('animals_data.json')
     user_filter = choose_skin_type()
-    fox_info = get_info(animals_data, user_filter)
+    animal_info = get_info(animals_data, user_filter)
     starting_page = "animals_template.html"
-
-
     page = read_template(starting_page)
-    animals_html = page.replace("__REPLACE_ANIMALS_INFO__", fox_info)
 
-    write_template(animals_html, "animals.html")
+    if not animal_info:
+        empty = f'<li class="cards__item"><h2>The animal "{animal}" does not exist.</h2></li>'
+        animals_html = page.replace("__REPLACE_ANIMALS_INFO__", empty)
+        write_template(animals_html, "animals.html")
+    else:
+        animals_html = page.replace("__REPLACE_ANIMALS_INFO__", animal_info)
+        write_template(animals_html, "animals.html")
+
     print("Done! HTML-file is updated.")
 
 
