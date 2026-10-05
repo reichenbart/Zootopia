@@ -1,23 +1,11 @@
 import json
-import requests
+from data_fetcher import fetch_data
 
 
 def load_json_data(file_path):
     """loads a JSON file"""
     with open(file_path, "r") as handle:
         return json.load(handle)
-
-
-def fetch_api(animal):
-    api_url = 'https://api.api-ninjas.com/v1/animals?name={}'.format(animal)
-    response = requests.get(api_url, headers={'X-Api-Key': 'U8eXhNjcTzFkDtaDo9O5zrDBwciGTaZ3qs7zkCKX'})
-    if response.status_code == requests.codes.ok:
-        data = response.json()
-        with open("animals_data.json", "w", encoding="utf-8") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-        print("Saved as animals_data.json")
-    else:
-        print("Error:", response.status_code, response.text)
 
 
 def get_info(animals, filter_value):
@@ -92,7 +80,7 @@ def write_template(content, file_path):
 
 def main():
     animal = input("Please enter the name of an animal: ")
-    fetch_api(animal)
+    fetch_data(animal)
     animals_data = load_json_data('animals_data.json')
     user_filter = choose_skin_type()
     animal_info = get_info(animals_data, user_filter)
