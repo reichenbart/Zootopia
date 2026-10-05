@@ -1,8 +1,11 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
 
 
-API_KEY = "U8eXhNjcTzFkDtaDo9O5zrDBwciGTaZ3qs7zkCKX"
+load_dotenv()
+API_KEY = os.getenv('API_KEY')
 
 
 def fetch_data(animal_name):
